@@ -76,6 +76,11 @@ namespace MediaToolkit
             if (conversionOptions.AudioSampleRate != AudioSampleRate.Default)
                 commandBuilder.AppendFormat(" -ar {0} ", conversionOptions.AudioSampleRate.Remove("Hz"));
 
+            // Audio to Mono
+            if (conversionOptions.EnableAudioDownMixing != null)
+                commandBuilder.AppendFormat(" -ac 1 ");
+
+
             // Maximum video duration
             if (conversionOptions.MaxVideoDuration != null)
                 commandBuilder.AppendFormat(" -t {0} ", conversionOptions.MaxVideoDuration);
@@ -123,6 +128,8 @@ namespace MediaToolkit
             {
                 commandBuilder.Append(" -profile:v baseline ");
             }
+
+            
 
             return commandBuilder.AppendFormat(" \"{0}\" ", outputFile.Filename).ToString();
         }

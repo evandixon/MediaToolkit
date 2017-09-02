@@ -265,29 +265,47 @@ namespace MediaToolkit.Test
 
             PrintMetadata(inputFile.Metadata);
             PrintMetadata(outputFile.Metadata);
-        }
+    }
 
-        [TestCase]
-        public void Can_TranscodeUsingConversionOptions()
+    [TestCase]
+    public void Can_TranscodeUsingConversionOptions()
+    {
+      string outputPath = string.Format("{0}/Transcode_Test.avi", Path.GetDirectoryName(_outputFilePath));
+
+      var inputFile = new MediaFile { Filename = _inputFilePath };
+      var outputFile = new MediaFile { Filename = outputPath };
+      var conversionOptions = new ConversionOptions
+      {
+        MaxVideoDuration = TimeSpan.FromSeconds(30),
+        VideoAspectRatio = VideoAspectRatio.R16_9,
+        VideoSize = VideoSize.Hd720,
+        AudioSampleRate = AudioSampleRate.Hz44100
+      };
+
+
+      using (var engine = new Engine())
+        engine.Convert(inputFile, outputFile, conversionOptions);
+    }
+
+    [TestCase]
+        public void Can_DownMixAudioUsingConversionOptions()
         {
-            string outputPath = string.Format("{0}/Transcode_Test.avi", Path.GetDirectoryName(_outputFilePath));
+            string outputPath = string.Format("{0}/MonoAudio_Test.wav", Path.GetDirectoryName(_outputFilePath));
 
             var inputFile = new MediaFile { Filename = _inputFilePath };
             var outputFile = new MediaFile { Filename = outputPath };
             var conversionOptions = new ConversionOptions
             {
                 MaxVideoDuration = TimeSpan.FromSeconds(30),
-                VideoAspectRatio = VideoAspectRatio.R16_9,
-                VideoSize = VideoSize.Hd720,
-                AudioSampleRate = AudioSampleRate.Hz44100
+                AudioSampleRate = AudioSampleRate.Hz16000,
+                EnableAudioDownMixing = true
             };
-
-
+      
             using (var engine = new Engine())
                 engine.Convert(inputFile, outputFile, conversionOptions);
         }
 
-        [TestCase]
+    [TestCase]
         public void Can_ScaleDownPreservingAspectRatio()
         {
             string outputPath = string.Format(@"{0}\Convert_Basic_Test.mp4", Path.GetDirectoryName(_outputFilePath));
