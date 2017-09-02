@@ -30,6 +30,11 @@ namespace MediaToolkit.Options
         }
 
         /// <summary>
+        ///     Audio bit rate
+        /// </summary>
+        public int? AudioBitRate = null;
+
+        /// <summary>
         ///     Audio sample rate
         /// </summary>
         public AudioSampleRate AudioSampleRate = AudioSampleRate.Default;
@@ -94,6 +99,11 @@ namespace MediaToolkit.Options
         ///     Specifies wheter or not to use H.264 Baseline Profile
         /// </summary>
         public bool BaselineProfile { get; set; }
+
+        /// <summary>
+        ///     Specifies whether to convert to mono audio or not
+        /// </summary>
+        public bool? EnableAudioDownMixing { get; set; }
     }
 
 }

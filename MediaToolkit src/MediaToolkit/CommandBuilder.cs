@@ -72,9 +72,18 @@ namespace MediaToolkit
                 return commandBuilder.ToString();
             }
 
+            // Audio bit rate
+            if (conversionOptions.AudioBitRate != null)
+                commandBuilder.AppendFormat(" -ab {0}k", conversionOptions.AudioBitRate);
+
             // Audio sample rate
             if (conversionOptions.AudioSampleRate != AudioSampleRate.Default)
                 commandBuilder.AppendFormat(" -ar {0} ", conversionOptions.AudioSampleRate.Remove("Hz"));
+
+            // Audio to Mono
+            if (conversionOptions.EnableAudioDownMixing != null)
+                commandBuilder.AppendFormat(" -ac 1 ");
+
 
             // Maximum video duration
             if (conversionOptions.MaxVideoDuration != null)
@@ -123,6 +132,8 @@ namespace MediaToolkit
             {
                 commandBuilder.Append(" -profile:v baseline ");
             }
+
+            
 
             return commandBuilder.AppendFormat(" \"{0}\" ", outputFile.Filename).ToString();
         }
